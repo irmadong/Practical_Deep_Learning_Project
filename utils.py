@@ -23,19 +23,19 @@ def imshow(img, title):
 
 def load_dataset(n_examples, loader, batch_size = 100) :
 
-    x_test, y_test = [], []
+    x_list, y_list = [], []
     for i, (x, y) in enumerate(loader):
-        x_test.append(x)
+        x_list.append(x)
         #print(x.shape)
-        y_test.append(y)
+        y_list.append(y)
         if n_examples is not None and batch_size * i >= n_examples:
             break
-    x_test_tensor = torch.cat(x_test)
-    y_test_tensor = torch.cat(y_test)
+    x_list_tensor = torch.cat(x_list)
+    y_list_tensor = torch.cat(y_list)
 
     if n_examples is not None:
-        x_test_tensor = x_test_tensor[:n_examples]
-        y_test_tensor = y_test_tensor[:n_examples]
+        x_list_tensor = x_list_tensor[:n_examples]
+        y_list_tensor = y_list_tensor[:n_examples]
 
     return x_test_tensor, y_test_tensor
 
