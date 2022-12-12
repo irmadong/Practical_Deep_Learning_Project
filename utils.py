@@ -7,6 +7,27 @@ import torchvision
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 
+import torchattacks
+from robustbench.utils import load_model
+from torchattacks import *
+
+
+# model = load_model('Standard', norm='Linf').to(device) #or customize
+def generate_adv(model, attack, images, labels, device="cuda"):
+    if attack == "pgd":
+        atk = PGD(model, eps=8 / 255, alpha=2 / 225, steps=10, random_start=True)
+    elif attack == "fgsm":
+        atk = FGSM(model)
+    elif attack == "pixle":
+        atk = Pixle(model)
+    elif attack == "nifgsm":
+        atk = NIFGSM(model)
+    elif attack == "autoattack":
+        atk = AutoAttack(model)
+    adv_images = atk(images, labels)
+    return adv_images
+
+
 def get_pred(model, images, device):
     logits = model(images.to(device))
     _, pres = logits.max(dim=1)
