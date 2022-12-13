@@ -8,7 +8,7 @@ import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 from torchattacks import *
 
-def generate_adv(model, attack, images, labels, device="cuda"):
+def generate_adv(model, attack):
     if attack == "pgd":
         atk = PGD(model, eps=8 / 255, alpha=2 / 225, steps=10, random_start=True)
     elif attack == "fgsm":
@@ -19,9 +19,15 @@ def generate_adv(model, attack, images, labels, device="cuda"):
         atk = NIFGSM(model)
     elif attack == "autoattack":
         atk = AutoAttack(model)
+    elif attack == "vnifgsm":
+        atk = VNIFGSM(model)
+    elif attack =="vmifgsm":
+        atk = VMIFGSM(model)
+    
     #todo: add more attacks 
-    adv_images = atk(images, labels)
-    return adv_images
+    #adv_images = atk(images, labels)
+    
+    return atk
 
 
 def get_pred(model, images, device):
