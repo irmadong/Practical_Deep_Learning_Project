@@ -6,13 +6,8 @@ import torch
 import torchvision
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
-
-import torchattacks
-from robustbench.utils import load_model
 from torchattacks import *
 
-
-# model = load_model('Standard', norm='Linf').to(device) #or customize
 def generate_adv(model, attack, images, labels, device="cuda"):
     if attack == "pgd":
         atk = PGD(model, eps=8 / 255, alpha=2 / 225, steps=10, random_start=True)
@@ -24,6 +19,7 @@ def generate_adv(model, attack, images, labels, device="cuda"):
         atk = NIFGSM(model)
     elif attack == "autoattack":
         atk = AutoAttack(model)
+    #todo: add more attacks 
     adv_images = atk(images, labels)
     return adv_images
 
@@ -58,19 +54,51 @@ def load_dataset(n_examples, loader, batch_size = 100) :
         x_list_tensor = x_list_tensor[:n_examples]
         y_list_tensor = y_list_tensor[:n_examples]
 
-    return x_test_tensor, y_test_tensor
+    return x_list_tensor, y_list_tensor
 
 
-def CIFAR10(batch_size=128, test_batch_size=128):
-    transform = transforms.Compose(
-        [transforms.ToTensor()])
+# +
+def CIFAR10(batch_size=128, finetune = False, input_size = 224, test_batch_size=128):
+    #todo: when to use this transform? 
+    if finetune:
+        transformer = {
+        'train': transforms.Compose([
+            transforms.RandomResizedCrop(input_size),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        ]),
+        'val': transforms.Compose([
+            transforms.Resize(input_size),
+            transforms.CenterCrop(input_size),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        ]),
+    }
+    else:
+        transformer = {
+        'train': transforms.Compose([
+            
+            transforms.ToTensor()
+        ]),
+        'val': transforms.Compose([
+          
+            transforms.ToTensor()
+        ]),
+    }
+        
+
+#     transform = transforms.Compose(
+#         [transforms.ToTensor()])
     train_dataset = datasets.CIFAR10('./datasets/CIFAR-10', train=True,
-                                     download=True, transform=transform)
+                                     download=True, transform=transformer['train'])
     train_loader = torch.utils.data.DataLoader(
         train_dataset, batch_size=batch_size, shuffle=True)
     val_dataset = datasets.CIFAR10('./datasets/CIFAR-10', train=False, download=True,
-                                   transform=transform)
+                                   transform=transformer['val'])
     val_loader = torch.utils.data.DataLoader(
         val_dataset, batch_size=test_batch_size, shuffle=True)
 
     return train_dataset, val_dataset, train_loader, val_loader
+
+

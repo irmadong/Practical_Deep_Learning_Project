@@ -5,7 +5,8 @@ from torch.utils.tensorboard import SummaryWriter
 import time
 
 
-def train_normal(model, train_loader, criterion, optimizer, epoch_number, writer: SummaryWriter, PATH, device="cuda",
+def train_normal(model, train_loader, criterion, optimizer, epoch_number, writer: SummaryWriter, 
+                 PATH, device="cuda",
                   n_steps_show=100):
     train_iter_count = 0
     stime = time.time()
@@ -48,6 +49,52 @@ def train_normal(model, train_loader, criterion, optimizer, epoch_number, writer
     print(f"Epoch [{epoch}/{epoch_number}]\t Time Taken: {time_taken} minutes")
     torch.save(model.state_dict(), PATH)
 
+def train_adv(model, img_tensor_list, label_tensor_list, criterion, optimizer, epoch_number, writer: SummaryWriter, 
+                 PATH, device="cuda",
+                  n_steps_show=100, batch_size = 100):
+    train_iter_count = 0
+    stime = time.time()
+    for epoch in range(epoch_number):
+        # running_loss = 0.0
+        print(f"Epoch [{epoch}/{epoch_number}]\t")
+
+        model.train()
+        for step in range(0, len(img_tensor_list), batch_size):
+            # get the inputs; data is a list of [inputs, labels]
+            inputs = img_tensor_list[step :step + batch_size]
+            labels = label_tensor_list[step : step + batch_size]
+            inputs = inputs.cuda()
+            labels = labels.cuda()
+            # zero the parameter gradients
+            optimizer.zero_grad()
+
+            # forward + backward + optimize
+            outputs = model(inputs)
+            # outputs = outputs.cuda()
+            loss = criterion(outputs, labels)
+            loss.backward()
+            optimizer.step()
+
+            writer.add_scalar("Loss/Train", loss.item(), train_iter_count)
+            train_iter_count += 1
+
+            if (step) % n_steps_show == 0:
+                print(
+                    f"Step [{step + 1}/{len(train_loader)}]\t Loss: {round(loss.item(), 5)}")
+
+            # print statistics
+            # running_loss += loss.item()
+
+        #             if i % 200 == 199:    # print every 2000 mini-batches
+        #                 print(f'[{epoch + 1}, {i + 1:5d}] loss: {running_loss / 2000:.3f}')
+        #                 running_loss = 0.0
+        lr = optimizer.param_groups[0]["lr"]
+        writer.add_scalar("LR", lr, epoch)
+    time_taken = (time.time() - stime) / 60
+    print(f"Epoch [{epoch}/{epoch_number}]\t Time Taken: {time_taken} minutes")
+    torch.save(model.state_dict(), PATH)
+
+
 def test(testloader, model):
     correct = 0
     total = 0
@@ -65,3 +112,5 @@ def test(testloader, model):
             correct += (predicted == labels).sum().item()
 
     print(f'Accuracy of the network on the 10000 test images: {100 * correct // total} %')
+
+
