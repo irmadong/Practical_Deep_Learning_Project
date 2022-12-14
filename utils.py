@@ -111,6 +111,51 @@ def CIFAR10(batch_size=128, finetune = False, input_size = 224, test_batch_size=
     return train_dataset, val_dataset, train_loader, val_loader
 
 
+
+# +
+def CIFAR100(batch_size=128, finetune = False, input_size = 224, test_batch_size=128):
+    #todo: when to use this transform? 
+    if finetune:
+        transformer = {
+        'train': transforms.Compose([
+            transforms.RandomResizedCrop(input_size),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        ]),
+        'val': transforms.Compose([
+            transforms.Resize(input_size),
+            transforms.CenterCrop(input_size),
+            transforms.ToTensor(),
+            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+        ]),
+    }
+    else:
+        transformer = {
+        'train': transforms.Compose([
+            
+            transforms.ToTensor()
+        ]),
+        'val': transforms.Compose([
+          
+            transforms.ToTensor()
+        ]),
+    }
+        
+
+#     transform = transforms.Compose(
+#         [transforms.ToTensor()])
+    train_dataset = datasets.CIFAR100('./datasets/CIFAR-100', train=True,
+                                     download=True, transform=transformer['train'])
+    train_loader = torch.utils.data.DataLoader(
+        train_dataset, batch_size=batch_size, shuffle=True)
+    val_dataset = datasets.CIFAR100('./datasets/CIFAR-100', train=False, download=True,
+                                   transform=transformer['val'])
+    val_loader = torch.utils.data.DataLoader(
+        val_dataset, batch_size=test_batch_size, shuffle=True)
+
+    return train_dataset, val_dataset, train_loader, val_loader
+
 # -
 
 def test_attack(val_loader, attack, model, device = "cuda"):
