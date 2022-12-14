@@ -282,6 +282,8 @@ def train(model, train_loader, train_criterion,val_loader, val_criterion,
         time_taken = (time.time() - stime) / 60
     print(f"Epoch [{epoch}/{epoch_number}]\t Time Taken: {time_taken} minutes")
     torch.save(model.state_dict(), PATH)
+    pt_path = "."+PATH.split(".")[-2] + ".pt"
+    torch.save(model, pt_path) #PT VERSION MODEL
 
 
 

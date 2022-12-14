@@ -7,6 +7,9 @@ import torchvision
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 from torchattacks import *
+import robustbench
+#from robustbench.data import load_cifar10
+from robustbench.utils import load_model, clean_accuracy
 
 def generate_adv(model, attack):
     if attack == "pgd":
@@ -106,5 +109,30 @@ def CIFAR10(batch_size=128, finetune = False, input_size = 224, test_batch_size=
         val_dataset, batch_size=test_batch_size, shuffle=True)
 
     return train_dataset, val_dataset, train_loader, val_loader
+
+
+# -
+
+def test_attack(val_loader, attack, model, device = "cuda"):
+    step_counter = 0
+    acc_counter = 0
+    for i, (images, labels) in enumerate(val_loader):
+        adv_images_adv = attack(images, labels)
+        adv_images_adv= adv_images_adv.to(device)
+        model = model.to(device)
+        labels = labels.to(device)
+        acc = clean_accuracy(model, adv_images_adv, labels)
+        acc_counter  += acc*len(images)
+
+        step_counter += len(images)
+
+
+
+    # adv_images_pgd_adv_t = pgd_attack_transfer(images, labels)
+    # acc = clean_accuracy(model_transfer, adv_images_pgd_adv_t, labels)
+    print('[Model loaded]')
+    print('Acc: %2.2f %%'%(acc_counter/step_counter*100))
+    print("adv model") 
+    return acc_counter / step_counter 
 
 
