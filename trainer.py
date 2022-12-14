@@ -216,6 +216,7 @@ def train(model, train_loader, train_criterion,val_loader, val_criterion,
             
             if adv_train:
                 adv_inputs = attack(inputs, labels)
+                adv_inputs = adv_inputs.to(device)
                 outputs = model(adv_inputs)
             else:
                 
