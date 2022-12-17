@@ -17,6 +17,10 @@ print("Torchvision Version: ",torchvision.__version__)
 
 
 def set_parameter_requires_grad(model, feature_extracting):
+    """
+    Wether the param 
+    
+    """
     if feature_extracting:
         for param in model.parameters():
             param.requires_grad = False
@@ -24,8 +28,9 @@ def set_parameter_requires_grad(model, feature_extracting):
 
 # +
 def initialize_model(model_name, num_classes, feature_extract, use_pretrained=True):
-    # Initialize these variables which will be set in this if statement. Each of these
-    #   variables is model specific.
+    """
+    
+    """
     model_ft = None
     input_size = 0
 
@@ -90,6 +95,9 @@ def initialize_model(model_name, num_classes, feature_extract, use_pretrained=Tr
 # -
 
 def initialize_optimizer(model_ft, feature_extract):
+    """
+    
+    """
     params_to_update = model_ft.parameters()
     print("Params to learn:")
     if feature_extract:

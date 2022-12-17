@@ -12,7 +12,9 @@ from robustbench.utils import load_model, clean_accuracy
 
 def generate_adv(model, attack):
     """
-        
+        generate adversarial attacks 
+        model: the model to be attacked 
+        attack: the name of the attack 
     """
     if attack == "pgd":
         atk = PGD(model, eps=8 / 255, alpha=2 / 225, steps=10, random_start=True)
@@ -33,11 +35,23 @@ def generate_adv(model, attack):
 
 
 def get_pred(model, images, device):
+    """
+        Get the predictions from the model 
+        model: the model 
+        images: the images as the input 
+        device: the device to use cuda / cpu 
+    """
     logits = model(images.to(device))
     _, pres = logits.max(dim=1)
     return pres.cpu()
 
 def imshow(img, title):
+    """
+        Show the image 
+        image: the image 
+        title: the title of the image 
+    
+    """
     img = torchvision.utils.make_grid(img.cpu().data, normalize=True)
     npimg = img.numpy()
     fig = plt.figure(figsize = (5, 15))
@@ -47,6 +61,14 @@ def imshow(img, title):
 
 
 def load_dataset(n_examples, loader, batch_size = 100) :
+    """
+        Load the dataset for generating adversarial samples 
+        
+        n_examples: the number of examples 
+        loader: the data loader 
+        batch_size: the batch size 
+        
+    """
 
     x_list, y_list = [], []
     for i, (x, y) in enumerate(loader):
@@ -66,7 +88,15 @@ def load_dataset(n_examples, loader, batch_size = 100) :
 
 
 def CIFAR10(batch_size=128, finetune = False, input_size = 224, test_batch_size=128):
-    #todo: when to use this transform? 
+    """
+    The cifar 10 dataset 
+    batch_size: the batch size default is 128
+    finetune: whether to transfomer the dataset 
+    input_size: the input size 
+    test_batch_size: the batch size of test dataset 
+    
+    """
+
     if finetune:
         transformer = {
         'train': transforms.Compose([
@@ -109,7 +139,15 @@ def CIFAR10(batch_size=128, finetune = False, input_size = 224, test_batch_size=
 
 
 def CIFAR100(batch_size=128, finetune = False, input_size = 224, test_batch_size=128):
-    #todo: when to use this transform? 
+    """
+    The cifar 100 dataset 
+    batch_size: the batch size default is 128
+    finetune: whether to transfomer the dataset 
+    input_size: the input size 
+    test_batch_size: the batch size of test dataset 
+    
+    """
+
     if finetune:
         transformer = {
         'train': transforms.Compose([
@@ -137,6 +175,8 @@ def CIFAR100(batch_size=128, finetune = False, input_size = 224, test_batch_size
         ]),
     }
         
+
+
     train_dataset = datasets.CIFAR100('./datasets/CIFAR-100', train=True,
                                      download=True, transform=transformer['train'])
     train_loader = torch.utils.data.DataLoader(
@@ -149,8 +189,16 @@ def CIFAR100(batch_size=128, finetune = False, input_size = 224, test_batch_size
     return train_dataset, val_dataset, train_loader, val_loader
 
 
-
 def test_attack(val_loader, attack, model, device = "cuda"):
+    """
+    test the accuracy with the attacked testloader 
+    
+    val_loader: the validation loader 
+    atttack: the attack used for generating adversarial samples 
+    model: the model of to be tested 
+    device: the device for testing 
+    
+    """
     step_counter = 0
     acc_counter = 0
     for i, (images, labels) in enumerate(val_loader):
@@ -167,5 +215,6 @@ def test_attack(val_loader, attack, model, device = "cuda"):
     print('Acc: %2.2f %%'%(acc_counter/step_counter*100))
     print("adv model") 
     return acc_counter / step_counter 
+
 
 
