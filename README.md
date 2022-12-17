@@ -12,6 +12,7 @@ Little research that combines adversarial training with transfer learning has be
 **utils.py**: the functiosn will be used such as creating a dataset etc \
 **finetune_framework.py**: the transfer learning frame work\
 **model directory**: the base shallow CNN model and the ResNet model
+
 # Prepare to execute: 
 first pip install -r requirement.txt\
 then pip install tensorboard \
