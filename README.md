@@ -1,5 +1,6 @@
 # Practical_Deep_Learning_Project
-This is the Computer Vision Adversarial Training project
+What Can We Learn From the State-of-the-art Adversarial Attacks on Transfer Learning?
+
 # Motivation 
 
 Deep neural networks are vulnerable to adversarial examples that mislead the models with imperceptible perturbations. Transfer learning aims to leverage models pre-trained on source data to efficiently adapt to target setting, where only limited data are available for model fine-tuning.
@@ -30,6 +31,16 @@ Please download the jupyter notebook and directly run the code
 ![image info](./exp_1.png)
 ![image info](./exp_3.png)
 ![image info](./exp_4.png)
+
+# Conclusion:
+
+**We conduct four experiments to investigate the impacts of classic and state-of-the-art adversarial attacks on Transfer Learning using CIFAR10 and CIFAR 100**
+
+
+Adversarial Training is highly effective on model from scratch with white-box attack\
+Transfer learning model is much more vulnerable to adversarial attacks though less so from FGSM attack\
+Training model from scratch without frozen layers have a better performances and are more robust to adversarial attacks\
+Training model from scratch using CIFAR100 has a lower accuracy and results in lower accuracy under adversarial attacks
 
 
 
