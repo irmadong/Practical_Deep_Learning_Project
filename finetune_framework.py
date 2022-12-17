@@ -18,7 +18,9 @@ print("Torchvision Version: ",torchvision.__version__)
 
 def set_parameter_requires_grad(model, feature_extracting):
     """
-    Wether the param 
+    Wether the parameter requried to take gradeints 
+    model: the model 
+    feature_extracting: wether extract the frozen features or not 
     
     """
     if feature_extracting:
@@ -29,7 +31,11 @@ def set_parameter_requires_grad(model, feature_extracting):
 # +
 def initialize_model(model_name, num_classes, feature_extract, use_pretrained=True):
     """
-    
+        initialize the base model for transfer learning 
+        model_name: the name of the model
+        num_classes: the number of classes 
+        feature_extract: whether to extract features or not 
+        use_pretrained: whether to use pretrained model or not
     """
     model_ft = None
     input_size = 0
@@ -96,7 +102,9 @@ def initialize_model(model_name, num_classes, feature_extract, use_pretrained=Tr
 
 def initialize_optimizer(model_ft, feature_extract):
     """
-    
+    initialize the optimizer 
+    model: the model
+    feature_extract: whether to extract features from the pretrained models 
     """
     params_to_update = model_ft.parameters()
     print("Params to learn:")
