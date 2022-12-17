@@ -14,7 +14,7 @@ Little research that combines adversarial training with transfer learning has be
 **model directory**: the base shallow CNN model and the ResNet model
 
 # Prepare to execute: 
-first pip install -r requirement.txt\
+first pip install -r requirements.txt\
 then pip install tensorboard \
 for some vm: run the following in the terminals: 
 sudo add-apt-repository ppa:ubuntu-toolchain-r/test \
