@@ -14,6 +14,13 @@ Little research that combines adversarial training with transfer learning has be
 **finetune_framework.py**: the transfer learning frame work\
 **model directory**: the base shallow CNN model and the ResNet model
 
+# Implementation Details: 
+Deep learning framework : Pytorch 1.7.1, + cu110, torchvision 0.8.2+cu110 torchaudio 0.7.2 \
+Platform: GCP \
+Machine Type: N1-highmem-8, T4 \
+Toolbox: torchattacks
+
+
 # Prepare to execute: 
 first pip install -r requirements.txt\
 then pip install tensorboard \
