@@ -14,6 +14,9 @@ Little research that combines adversarial training with transfer learning has be
 # Solution Architecture
 ![image info](./solution_arch.png)
 # Experiments & observations 
+![image info](./exp_1.png)
+![image info](./exp_3.png)
+![image info](./exp_4.png)
 
 
 
