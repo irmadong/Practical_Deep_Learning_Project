@@ -10,7 +10,8 @@ Little research that combines adversarial training with transfer learning has be
 **utils.py**: the functiosn will be used such as creating a dataset etc \
 **finetune_framework.py**: the transfer learning frame work\
 **model directory**: the base shallow CNN model and the ResNet model
-
+# How to execute code? 
+Please download the jupyter notebook and directly run the code
 # Solution Architecture
 ![image info](./solution_arch.png)
 # Experiments & observations 
