@@ -12,6 +12,7 @@ Little research that combines adversarial training with transfer learning has be
 **model directory**: the base shallow CNN model and the ResNet model\
 
 # Solution Architecture
+![image info](./solution_arch.png)
 
 
 
