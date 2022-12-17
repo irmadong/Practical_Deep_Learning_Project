@@ -1,5 +1,3 @@
-# can be added to the trainer later
-# todo: add evaluation? maybe not
 import torch
 from torch.utils.tensorboard import SummaryWriter
 import time
