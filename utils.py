@@ -8,10 +8,12 @@ import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 from torchattacks import *
 import robustbench
-#from robustbench.data import load_cifar10
 from robustbench.utils import load_model, clean_accuracy
 
 def generate_adv(model, attack):
+    """
+        
+    """
     if attack == "pgd":
         atk = PGD(model, eps=8 / 255, alpha=2 / 225, steps=10, random_start=True)
     elif attack == "fgsm":
@@ -26,9 +28,6 @@ def generate_adv(model, attack):
         atk = VNIFGSM(model)
     elif attack =="vmifgsm":
         atk = VMIFGSM(model)
-    
-    #todo: add more attacks 
-    #adv_images = atk(images, labels)
     
     return atk
 
@@ -66,7 +65,6 @@ def load_dataset(n_examples, loader, batch_size = 100) :
     return x_list_tensor, y_list_tensor
 
 
-# +
 def CIFAR10(batch_size=128, finetune = False, input_size = 224, test_batch_size=128):
     #todo: when to use this transform? 
     if finetune:
@@ -97,8 +95,6 @@ def CIFAR10(batch_size=128, finetune = False, input_size = 224, test_batch_size=
     }
         
 
-#     transform = transforms.Compose(
-#         [transforms.ToTensor()])
     train_dataset = datasets.CIFAR10('./datasets/CIFAR-10', train=True,
                                      download=True, transform=transformer['train'])
     train_loader = torch.utils.data.DataLoader(
@@ -112,7 +108,6 @@ def CIFAR10(batch_size=128, finetune = False, input_size = 224, test_batch_size=
 
 
 
-# +
 def CIFAR100(batch_size=128, finetune = False, input_size = 224, test_batch_size=128):
     #todo: when to use this transform? 
     if finetune:
@@ -142,9 +137,6 @@ def CIFAR100(batch_size=128, finetune = False, input_size = 224, test_batch_size
         ]),
     }
         
-
-#     transform = transforms.Compose(
-#         [transforms.ToTensor()])
     train_dataset = datasets.CIFAR100('./datasets/CIFAR-100', train=True,
                                      download=True, transform=transformer['train'])
     train_loader = torch.utils.data.DataLoader(
@@ -156,7 +148,7 @@ def CIFAR100(batch_size=128, finetune = False, input_size = 224, test_batch_size
 
     return train_dataset, val_dataset, train_loader, val_loader
 
-# -
+
 
 def test_attack(val_loader, attack, model, device = "cuda"):
     step_counter = 0
@@ -171,10 +163,6 @@ def test_attack(val_loader, attack, model, device = "cuda"):
 
         step_counter += len(images)
 
-
-
-    # adv_images_pgd_adv_t = pgd_attack_transfer(images, labels)
-    # acc = clean_accuracy(model_transfer, adv_images_pgd_adv_t, labels)
     print('[Model loaded]')
     print('Acc: %2.2f %%'%(acc_counter/step_counter*100))
     print("adv model") 
