@@ -8,4 +8,4 @@ torch==1.7.1+cu110
 -f https://download.pytorch.org/whl/torch_stable.html
 torchvision==0.8.2+cu110
 -f https://download.pytorch.org/whl/torch_stable.html
-torchaudio===0.7.2 -f 
+torchaudio===0.7.2
