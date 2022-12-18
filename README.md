@@ -1,8 +1,8 @@
 # Practical_Deep_Learning_Project
-What Can We Learn From the State-of-the-art Adversarial Attacks on Transfer Learning?
+What Can We Learn From the State-of-the-art Adversarial Attacks on Transfer Learning\
 Teammate: \
 Jing Dong \
-Ganghua Mei \
+Ganghua Mei
 
 # Motivation 
 
