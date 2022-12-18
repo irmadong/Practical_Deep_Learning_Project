@@ -18,10 +18,11 @@ Little research that combines adversarial training with transfer learning has be
 **model directory**: the base shallow CNN model and the ResNet model
 
 # Implementation Details: 
+
 Deep learning framework : Pytorch 1.7.1, + cu110, torchvision 0.8.2+cu110 torchaudio 0.7.2 \
 Platform: GCP \
-Machine Type: N1-highmem-8, T4 \
-Toolbox: torchattacks
+Machine Type: N1-highmem-4, N1-highmem-8, N1-highmem-16, T4 , V100 \
+Toolbox: torchattacks, robustbench
 
 
 # Prepare to execute: 
