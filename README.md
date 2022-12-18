@@ -36,6 +36,7 @@ Please download the jupyter notebook and directly run the code
 ![image info](./solution_arch.png)
 # Experiments & observations 
 ![image info](./exp_1.png)
+![image info](./exp_2.png)
 ![image info](./exp_3.png)
 ![image info](./exp_4.png)
 
