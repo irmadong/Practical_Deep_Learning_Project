@@ -44,11 +44,12 @@ Please download the jupyter notebook and directly run the code
 
 **We conduct four experiments to investigate the impacts of classic and state-of-the-art adversarial attacks on Transfer Learning using CIFAR10 and CIFAR 100**
 
-
 Adversarial Training is highly effective on model from scratch with white-box attack\
-Transfer learning model is much more vulnerable to adversarial attacks though less so from FGSM attack\
-Training model from scratch without frozen layers have a better performances and are more robust to adversarial attacks\
-Training model from scratch using CIFAR100 has a lower accuracy and results in lower accuracy under adversarial attacks
+Transfer learning model is much more vulnerable to adversarial attacks\
+FGSM attack is weak on pretrained models\
+Training models from scratch without pretrained layers have a better performance and are more robust to adversarial attacks\
+Training models from scratch with larger classes have relatively lower accuracy with or without adversarial training due to the increasing level of task complexity
+
 
 
 
